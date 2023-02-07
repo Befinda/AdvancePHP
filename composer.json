@@ -1,0 +1,16 @@
+{
+    "name": "beffi/advancephp",
+    "description": "advancephp",
+    "autoload": {
+        "psr-4": {
+            "Beffi\\advancephp\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Margarita Mareeva",
+            "email": "beffinda@gmail.com"
+        }
+    ],
+    "require": {}
+}

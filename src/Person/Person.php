@@ -1,5 +1,5 @@
 <?php
-namespace GeekBrains\Person;
+namespace Beffi\advancephp\Person;
 
 use \DateTimeImmutable;
 

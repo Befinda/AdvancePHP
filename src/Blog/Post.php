@@ -1,7 +1,9 @@
 <?php
-namespace GeekBrains\Blog;
+namespace Beffi\advancephp\Blog;
 
-use GeekBrains\Person\Person;
+
+use Beffi\advancephp\Person\Person;
+
 
 class Post
 {
