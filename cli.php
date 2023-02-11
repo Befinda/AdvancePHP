@@ -1,10 +1,15 @@
 <?php
+use Beffi\advancephp\Blog\Comment;
+use Beffi\advancephp\Blog\Exceptions\UserNotFoundException;
+
 set_include_path(__DIR__);
 
 
 use Beffi\advancephp\Blog\Post;
+use Beffi\advancephp\Blog\User;
 use Beffi\advancephp\Person\Name;
 use Beffi\advancephp\Person\Person;
+use Beffi\advancephp\Blog\Repositories\InMemoryUsersRepository;
 
 require_once __DIR__ . "/vendor/autoload.php";
 // spl_autoload_register(function ($class) {
@@ -20,13 +25,44 @@ require_once __DIR__ . "/vendor/autoload.php";
 //         require $file;
 //     }
 // });
-//require_once "vendor/autoload.php";
+
+$faker = Faker\Factory::create('ru_RU');
+$name = new Person(
+    new Name('Петр', 'Сидоров'),
+    new DateTimeImmutable()
+);
+$user = new User(1, $name, "Admin");
+echo $user->descriptionUser();
 
 $post = new Post(
-    new Person(
-        new Name('Иван', 'Никитин'),
-        new DateTimeImmutable()
-    ),
-    'Всем привет!'
+    1,
+    $user,
+    'Всем привет!',
+    "Привет. Это моя первая статья."
 );
 print $post;
+echo $post->getPost(1);
+
+$comment = new Comment(
+    1,
+    $user,
+    $post,
+    "Великолепно"
+);
+echo $comment;
+$name2 = new Person(new Name('Иван', 'Федотов'), new DateTimeImmutable());
+$user2 = new User(2, $name2, "Moderator");
+$userRepository = new InMemoryUsersRepository();
+$userRepository->save($user);
+$userRepository->save($user2);
+
+try {
+    echo $userRepository->get(1)->descriptionUser();
+    echo $userRepository->get(2)->descriptionUser();
+    echo $userRepository->get(3)->descriptionUser();
+} catch (UserNotFoundException $e) {
+    echo $e->getMessage();
+} catch (Exception $e) {
+    echo "I don't know";
+    echo $e->getMessage();
+}
