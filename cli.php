@@ -27,8 +27,9 @@ require_once __DIR__ . "/vendor/autoload.php";
 // });
 
 $faker = Faker\Factory::create('ru_RU');
+
 $name = new Person(
-    new Name('Петр', 'Сидоров'),
+    new Name($faker->firstName(), $faker->lastName()),
     new DateTimeImmutable()
 );
 $user = new User(1, $name, "Admin");
@@ -37,21 +38,22 @@ echo $user->descriptionUser();
 $post = new Post(
     1,
     $user,
-    'Всем привет!',
-    "Привет. Это моя первая статья."
+    $faker->sentence(),
+    $faker->paragraph()
 );
 print $post;
 echo $post->getPost(1);
 
+$name2 = new Person(new Name($faker->firstName(), $faker->lastName()), new DateTimeImmutable());
+$user2 = new User(2, $name2, "Moderator");
 $comment = new Comment(
     1,
-    $user,
+    $user2,
     $post,
-    "Великолепно"
+    $faker->sentence(8)
 );
 echo $comment;
-$name2 = new Person(new Name('Иван', 'Федотов'), new DateTimeImmutable());
-$user2 = new User(2, $name2, "Moderator");
+
 $userRepository = new InMemoryUsersRepository();
 $userRepository->save($user);
 $userRepository->save($user2);
