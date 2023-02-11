@@ -1,32 +1,20 @@
 <?php
 use Beffi\advancephp\Blog\Comment;
+use Beffi\advancephp\Blog\Post;
+use Beffi\advancephp\Blog\User;
+use Beffi\advancephp\Person\Name;
+use Beffi\advancephp\Person\Person;
 
 //use Beffi\advancephp\Blog\Exceptions\UserNotFoundException;
 
 set_include_path(__DIR__);
 
 
-use Beffi\advancephp\Blog\Post;
-use Beffi\advancephp\Blog\User;
-use Beffi\advancephp\Person\Name;
-use Beffi\advancephp\Person\Person;
 
 //use Beffi\advancephp\Blog\Repositories\InMemoryUsersRepository;
 
 require_once __DIR__ . "/vendor/autoload.php";
-// spl_autoload_register(function ($class) {
-//     $file = $class . ".php";
-//     $file = str_replace('\\', DIRECTORY_SEPARATOR, $file);
-//     $file = str_replace('GeekBrains\advancephp', 'src', $file);
-//     var_dump($file);
-//     $subfile = strrchr($file, DIRECTORY_SEPARATOR);
-//     $subfilenew = str_replace('_', DIRECTORY_SEPARATOR, $subfile);
-//     $file = str_replace($subfile, $subfilenew, $file);
-//     var_dump($file);
-//     if (file_exists($file)) {
-//         require $file;
-//     }
-// });
+
 
 $faker = Faker\Factory::create('ru_RU');
 
