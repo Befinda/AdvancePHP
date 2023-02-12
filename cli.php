@@ -9,7 +9,7 @@ use Beffi\advancephp\Person\Person;
 
 set_include_path(__DIR__);
 
-
+echo __NAMESPACE__;
 
 //use Beffi\advancephp\Blog\Repositories\InMemoryUsersRepository;
 
