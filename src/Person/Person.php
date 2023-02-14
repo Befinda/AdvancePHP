@@ -19,7 +19,7 @@ class Person
     {
         return $this->name . ' (на сайте с ' . $this->registeredOn->format('Y-m-d') . ')';
     }
-    public function getName(): string
+    public function getName(): Name
     {
         return $this->name;
     }

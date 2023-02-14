@@ -5,37 +5,30 @@ use Beffi\advancephp\Person\Person;
 
 class User
 {
-    private int $id;
+    private UUID $uuid;
+
     private Person $username;
     private string $login;
 
 
 
     /**
-     * @param int $id
+     * @param UUID $uuid
      * @param Person $username
      * @param string $login
      */
-    public function __construct(int $id, Person $username, string $login)
+    public function __construct(UUID $uuid, Person $username, string $login)
     {
-        $this->id = $id;
+        $this->uuid = $uuid;
         $this->username = $username;
         $this->login = $login;
     }
 
-    public function __toString(): string
-    {
-        return $this->username->getName();
-    }
-    public function id(): int
-    {
-        return $this->id;
-    }
-    public function setId(int $id): void
-    {
-        $this->id = $id;
-    }
-    public function getUsername(): string
+    // public function __toString(): string
+    // {
+    //     //return $this->username->getName();
+    // }
+    public function name(): Person
     {
         return $this->username;
     }
@@ -62,6 +55,17 @@ class User
     }
     public function descriptionUser(): string
     {
-        return "Пользователь №$this->id $this->username с логином $this->login" . PHP_EOL;
+        return "Пользователь №$this->uuid $this->username с логином $this->login" . PHP_EOL;
+    }
+
+
+
+
+    /**
+     * @return UUID
+     */
+    public function id(): UUID
+    {
+        return $this->uuid;
     }
 }
