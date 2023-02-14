@@ -26,7 +26,7 @@ class User
 
     // public function __toString(): string
     // {
-    //     //return $this->username->getName();
+    //     return $this->username->getName();
     // }
     public function name(): Person
     {
@@ -53,7 +53,8 @@ class User
         $this->login = $login;
 
     }
-    public function descriptionUser(): string
+    //public function descriptionUser(): string
+    public function __toString(): string
     {
         return "Пользователь №$this->uuid $this->username с логином $this->login" . PHP_EOL;
     }

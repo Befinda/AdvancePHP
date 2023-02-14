@@ -8,7 +8,7 @@ use Beffi\advancephp\Person\Name;
 use Beffi\advancephp\Person\Person;
 use \PDO;
 
-class SqliteUsersRepository
+class SqliteUsersRepository implements UsersRepositoryInterface
 {
     public function __construct(
         private PDO $connection
