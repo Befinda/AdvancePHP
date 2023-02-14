@@ -64,7 +64,7 @@ class User
     /**
      * @return UUID
      */
-    public function id(): UUID
+    public function uuid(): UUID
     {
         return $this->uuid;
     }
