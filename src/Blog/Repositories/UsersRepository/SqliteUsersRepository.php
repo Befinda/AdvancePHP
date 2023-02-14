@@ -7,6 +7,7 @@ use Beffi\advancephp\Blog\UUID;
 use Beffi\advancephp\Person\Name;
 use Beffi\advancephp\Person\Person;
 use \PDO;
+use \PDOStatement;
 
 class SqliteUsersRepository implements UsersRepositoryInterface
 {
@@ -47,6 +48,36 @@ class SqliteUsersRepository implements UsersRepositoryInterface
             new UUID($result['uuid']),
             new Person(new Name($result['first_name'], $result['last_name']), new \DateTimeImmutable()),
             "admin"
+        );
+    }
+    /**
+     * @param string $logim
+     * @return User
+     */
+    public function getByLogin(string $login): User
+    {
+        $statement = $this->connection->prepare(
+            'SELECT * FROM users WHERE login = :login'
+        );
+        $statement->execute([
+            ':login' => $login,
+        ]);
+        return $this->getUser($statement, $login);
+
+    }
+    private function getUser(PDOStatsement $statement, string $login): User
+    {
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        if (false === $result) {
+            throw new UserNotFoundException(
+                "Cannot find user: $login"
+            );
+        }
+        // Создаём объект пользователя с полем username
+        return new User(
+            new UUID($result['uuid']),
+            new Person(new Name($result['first_name'], $result['last_name']), new \DateTimeImmutable()),
+            $result['username'],
         );
     }
 }
