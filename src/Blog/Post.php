@@ -44,4 +44,20 @@ class Post
     {
         return $this->uuid;
     }
+
+    /**
+     * @return User
+     */
+    public function author(): User
+    {
+        return $this->author;
+    }
+
+    /**
+     * @return string
+     */
+    public function getText(): string
+    {
+        return $this->text;
+    }
 }

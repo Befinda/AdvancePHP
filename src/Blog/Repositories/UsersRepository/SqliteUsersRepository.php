@@ -35,9 +35,12 @@ class SqliteUsersRepository implements UsersRepositoryInterface
     {
 
         $statement = $this->connection->prepare(
-            'SELECT * FROM users WHERE uuid = ?'
+            'SELECT * FROM users WHERE uuid = :uuid'
         );
-        $statement->execute([(string) $uuid]);
+        $statement->execute([
+            ':uuid' => (string) $uuid
+        ]);
+        //var_dump($statement);
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         // Бросаем исключение, если пользователь не найден
         if (false === $result) {
@@ -45,7 +48,13 @@ class SqliteUsersRepository implements UsersRepositoryInterface
                 "Cannot get user: $uuid"
             );
         }
-        return $this->getUser($statement, $uuid);
+
+        return //$this->getUser($statement, $uuid);
+            new User(
+                new UUID($result['uuid']),
+                new Person(new Name($result['first_name'], $result['last_name']), new \DateTimeImmutable()),
+                $result['username'],
+            );
     }
     /**
      * @param string $username
@@ -67,6 +76,7 @@ class SqliteUsersRepository implements UsersRepositoryInterface
     private function getUser(PDOStatement $statement, string $username): User
     {
         $result = $statement->fetch(PDO::FETCH_ASSOC);
+        //var_dump($statement);
         if (false === $result) {
             throw new UserNotFoundException(
                 "Cannot find user: $username"

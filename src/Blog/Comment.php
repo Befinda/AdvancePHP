@@ -35,4 +35,28 @@ class Comment
     {
         return $this->uuid;
     }
+
+    /**
+     * @return string
+     */
+    public function getText(): string
+    {
+        return $this->comText;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @return Post
+     */
+    public function getPost(): Post
+    {
+        return $this->post;
+    }
 }
