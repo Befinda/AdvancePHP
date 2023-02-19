@@ -1,70 +1,44 @@
 <?php
+use Beffi\advancephp\Blog\Commands\Arguments;
+use Beffi\advancephp\Blog\Commands\CreateUserCommand;
 use Beffi\advancephp\Blog\Comment;
+use Beffi\advancephp\Blog\Exceptions\CommandException;
+use Beffi\advancephp\Blog\Exceptions\PostNotFoundException;
+use Beffi\advancephp\Blog\Exceptions\CommentNotFoundException;
 use Beffi\advancephp\Blog\Post;
-use Beffi\advancephp\Blog\User;
-use Beffi\advancephp\Person\Name;
-use Beffi\advancephp\Person\Person;
-
-//use Beffi\advancephp\Blog\Exceptions\UserNotFoundException;
-
-set_include_path(__DIR__);
+use Beffi\advancephp\Blog\Repositories\CommentsRepository\SqliteCommentsRepository;
+use Beffi\advancephp\Blog\Repositories\PostsRepository\SqlitePostsRepository;
+use Beffi\advancephp\Blog\Repositories\UsersRepository\SqliteUsersRepository;
+use Beffi\advancephp\Blog\UUID;
 
 
+include __DIR__ . "/vendor/autoload.php";
 
-//use Beffi\advancephp\Blog\Repositories\InMemoryUsersRepository;
+$connection = new PDO('sqlite:' . __DIR__ . '/blog.sqlite');
+$usersRepository = new SqliteUsersRepository($connection);
+$postsRepository = new SqlitePostsRepository($connection);
+$commentsRepository = new SqliteCommentsRepository($connection);
 
-require_once __DIR__ . "/vendor/autoload.php";
-
-
-$faker = Faker\Factory::create('ru_RU');
-
-$name = new Person(
-    new Name($faker->firstName(), $faker->lastName()),
-    new DateTimeImmutable()
-);
-$user = new User(1, $name, "Admin");
-
-$post = new Post(
-    1,
-    $user,
-    $faker->sentence(),
-    $faker->paragraph()
-);
-
-$name2 = new Person(new Name($faker->firstName(), $faker->lastName()), new DateTimeImmutable());
-$user2 = new User(2, $name2, "Moderator");
-$comment = new Comment(
-    1,
-    $user2,
-    $post,
-    $faker->sentence(8)
-);
-switch ($argv[1]) {
-    case "user":
-        echo $user->descriptionUser();
-        break;
-    case "post":
-        print $post;
-        echo $post->getPost(1);
-        break;
-    case "comment":
-        echo $comment;
-        break;
-    default:
-        echo "The End";
+// $commentsRepository->save(
+//     new Comment(
+//         UUID::random(),
+//         $usersRepository->getByUsername("ivan"),
+//         $postsRepository->get(new UUID("c4943dfd-ff78-4ef5-b36c-3d203245e67b")),
+//         "My first comment. My name is Ivan."
+//     )
+// );
+try {
+    echo $commentsRepository->get(new UUID("801d34eb-13b2-4a2c-b8f5-70be2eff7cc5"));
+} catch (CommentNotFoundException) {
+    echo "Comment not found";
+} catch (Exception $e) {
+    echo "{$e->getMessage()}\n";
 }
 
-// $userRepository = new InMemoryUsersRepository();
-// $userRepository->save($user);
-// $userRepository->save($user2);
-
+// $command = new CreateUserCommand($usersRepository);
 // try {
-//     echo $userRepository->get(1)->descriptionUser();
-//     echo $userRepository->get(2)->descriptionUser();
-//     echo $userRepository->get(3)->descriptionUser();
-// } catch (UserNotFoundException $e) {
-//     echo $e->getMessage();
-// } catch (Exception $e) {
-//     echo "I don't know";
-//     echo $e->getMessage();
-//}
+//     // Запускаем команду
+//     $command->handle(Arguments::fromArgv($argv));
+// } catch (CommandException $e) {
+//     echo "{$e->getMessage()}\n";
+// }

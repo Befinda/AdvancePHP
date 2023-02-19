@@ -3,9 +3,10 @@
 namespace Beffi\advancephp\Blog\Repositories;
 
 use Beffi\advancephp\Blog\Exceptions\UserNotFoundException;
+use Beffi\advancephp\Blog\Repositories\UsersRepository\UsersRepositoryInterface;
 use Beffi\advancephp\Blog\User;
 
-class InMemoryUsersRepository
+class InMemoryUsersRepository implements UsersRepositoryInterface
 {
     private array $users = [];
     public function save(User $user): void
