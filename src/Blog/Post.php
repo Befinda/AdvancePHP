@@ -3,18 +3,18 @@ namespace Beffi\advancephp\Blog;
 
 class Post
 {
-    public int $id;
+    private UUID $uuid;
     private User $author;
     private string $text;
     private string $title;
     public function __construct(
-        int $id,
+        UUID $uuid,
         User $author,
         string $title,
         string $text
     )
     {
-        $this->id = $id;
+        $this->uuid = $uuid;
         $this->author = $author;
         $this->title = $title;
         $this->text = $text;
@@ -35,5 +35,13 @@ class Post
     public function getTitle(): string
     {
         return $this->title;
+    }
+
+    /**
+     * @return UUID
+     */
+    public function uuid(): UUID
+    {
+        return $this->uuid;
     }
 }
