@@ -6,62 +6,50 @@ use Beffi\advancephp\Person\Person;
 class User
 {
     private UUID $uuid;
-
-    private Person $username;
-    private string $login;
-
-
+    private Person $name;
+    private string $username;
 
     /**
      * @param UUID $uuid
-     * @param Person $username
-     * @param string $login
+     * @param Person $name
+     * @param string $username
      */
-    public function __construct(UUID $uuid, Person $username, string $login)
+    public function __construct(UUID $uuid, Person $name, string $username)
     {
         $this->uuid = $uuid;
+        $this->name = $name;
         $this->username = $username;
-        $this->login = $login;
     }
 
     // public function __toString(): string
     // {
-    //     return $this->username->getName();
+    //     return $this->name->getName();
     // }
     public function name(): Person
     {
-        return $this->username;
+        return $this->name;
     }
-    public function setUsername(Person $username): void
+    public function setName(Person $name): void
     {
-        $this->username = $username;
+        $this->name = $name;
     }
 
     /**
      * @return string
      */
-    public function getLogin(): string
+    public function username(): string
     {
-        return $this->login;
+        return $this->username;
     }
 
     /**
-     * @param string $login 
+     * @param string $username 
      */
-    public function setLogin(string $login): void
+    public function setUsername(string $username): void
     {
-        $this->login = $login;
+        $this->username = $username;
 
     }
-    //public function descriptionUser(): string
-    public function __toString(): string
-    {
-        return "Пользователь №$this->uuid $this->username с логином $this->login" . PHP_EOL;
-    }
-
-
-
-
     /**
      * @return UUID
      */
@@ -69,4 +57,13 @@ class User
     {
         return $this->uuid;
     }
+    //public function descriptionUser(): string
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return "Пользователь №$this->uuid $this->name с логином $this->username" . PHP_EOL;
+    }
+
 }

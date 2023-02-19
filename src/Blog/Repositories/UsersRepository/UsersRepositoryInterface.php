@@ -8,6 +8,6 @@ interface UsersRepositoryInterface
 {
     public function save(User $user): void;
     public function get(UUID $uuid): User;
-    public function getByLogin(string $logim): User;
+    public function getByUserName(string $username): User;
 
 }

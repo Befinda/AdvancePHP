@@ -1,4 +1,5 @@
 <?php
+use Beffi\advancephp\Blog\Commands\Arguments;
 use Beffi\advancephp\Blog\Commands\CreateUserCommand;
 use Beffi\advancephp\Blog\Exceptions\CommandException;
 use Beffi\advancephp\Blog\Repositories\UsersRepository\SqliteUsersRepository;
@@ -13,7 +14,7 @@ $usersRepository = new SqliteUsersRepository($connection);
 $command = new CreateUserCommand($usersRepository);
 try {
     // Запускаем команду
-    $command->handle($argv);
+    $command->handle(Arguments::fromArgv($argv));
 } catch (CommandException $e) {
     echo "{$e->getMessage()}\n";
 }

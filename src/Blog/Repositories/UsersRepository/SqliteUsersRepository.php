@@ -20,13 +20,14 @@ class SqliteUsersRepository implements UsersRepositoryInterface
     {
         // Подготавливаем запрос
         $statement = $this->connection->prepare(
-            'INSERT INTO users (uuid, first_name, last_name) VALUES (:uuid, :first_name, :last_name)'
+            'INSERT INTO users (uuid, first_name, last_name, username) VALUES (:uuid, :first_name, :last_name, :username)'
         );
         // Выполняем запрос с конкретными значениями
         $statement->execute([
             ':uuid' => (string) $user->uuid(),
             ':first_name' => $user->name()->getName()->first(),
             ':last_name' => $user->name()->getName()->last(),
+            ':username' => (string) $user->username(),
         ]);
 
     }
@@ -44,33 +45,31 @@ class SqliteUsersRepository implements UsersRepositoryInterface
                 "Cannot get user: $uuid"
             );
         }
-        return new User(
-            new UUID($result['uuid']),
-            new Person(new Name($result['first_name'], $result['last_name']), new \DateTimeImmutable()),
-            "admin"
-        );
+        return $this->getUser($statement, $uuid);
     }
     /**
-     * @param string $logim
+     * @param string $username
      * @return User
      */
-    public function getByLogin(string $login): User
+    public function getByUsername(string $username): User
     {
         $statement = $this->connection->prepare(
-            'SELECT * FROM users WHERE login = :login'
+            'SELECT * FROM users WHERE username = :username'
         );
         $statement->execute([
-            ':login' => $login,
+            ':username' => $username,
         ]);
-        return $this->getUser($statement, $login);
+
+
+        return $this->getUser($statement, $username);
 
     }
-    private function getUser(PDOStatsement $statement, string $login): User
+    private function getUser(PDOStatement $statement, string $username): User
     {
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         if (false === $result) {
             throw new UserNotFoundException(
-                "Cannot find user: $login"
+                "Cannot find user: $username"
             );
         }
         // Создаём объект пользователя с полем username
