@@ -22,23 +22,23 @@ $name = new Person(
     new Name($faker->firstName(), $faker->lastName()),
     new DateTimeImmutable()
 );
-$user = new User(1, $name, "Admin");
+//$user = new User(1, $name, "Admin");
 
-$post = new Post(
-    1,
-    $user,
-    $faker->sentence(),
-    $faker->paragraph()
-);
+// $post = new Post(
+//     1,
+//     $user,
+//     $faker->sentence(),
+//     $faker->paragraph()
+// );
 
 $name2 = new Person(new Name($faker->firstName(), $faker->lastName()), new DateTimeImmutable());
-$user2 = new User(2, $name2, "Moderator");
-$comment = new Comment(
-    1,
-    $user2,
-    $post,
-    $faker->sentence(8)
-);
+// $user2 = new User(2, $name2, "Moderator");
+// $comment = new Comment(
+//     1,
+//     $user2,
+//     $post,
+//     $faker->sentence(8)
+// );
 switch ($argv[1]) {
     case "user":
         echo $user->descriptionUser();
