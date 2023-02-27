@@ -13,7 +13,7 @@ use Beffi\advancephp\Blog\UUID;
 
 
 include __DIR__ . "/vendor/autoload.php";
-
+//$str = 'sqlite:' . __DIR__ . '/blog.sqlite';
 $connection = new PDO('sqlite:' . __DIR__ . '/blog.sqlite');
 $usersRepository = new SqliteUsersRepository($connection);
 $postsRepository = new SqlitePostsRepository($connection);

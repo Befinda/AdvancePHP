@@ -24,7 +24,7 @@ public function testItReturnsErrorResponseIfNoUsernameProvided(): void
 // Создаём объект запроса
 // Вместо суперглобальных переменных
 // передаём простые массивы
-    $request = new Request([], []);
+    $request = new Request([], [],'');
 // Создаём стаб репозитория пользователей
     $usersRepository = $this->usersRepository([]);
 //Создаём объект действия
@@ -47,7 +47,7 @@ $response->send();
 public function testItReturnsErrorResponseIfUserNotFound(): void
 {
 // Теперь запрос будет иметь параметр username
-$request = new Request(['username' => 'ivan'], []);
+$request = new Request(['username' => 'ivan'], [],'');
 // Репозиторий пользователей по-прежнему пуст
 $usersRepository = $this->usersRepository([]);
 $action = new FindByUsername($usersRepository);
@@ -63,7 +63,7 @@ $response->send();
 // Тест, проверяющий, что будет возвращён удачный ответ,
 // если пользователь найден
 public function testItReturnsSuccessfulResponse(): void{
-    $request = new Request(['username' => 'ivan'], []);
+    $request = new Request(['username' => 'ivan'], [],'');
 // На этот раз в репозитории есть нужный нам пользователь
 $usersRepository = $this->usersRepository([
 new User(
