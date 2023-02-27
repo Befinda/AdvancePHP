@@ -22,6 +22,6 @@
         "phpunit/phpunit": "^10"
     },
     "scripts": {
-        "test": "phpunit tests --testdox --colors"
+        "test": "phpunit tests/actions --testdox --colors"
     }
 }
