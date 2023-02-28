@@ -2,11 +2,16 @@
 
 use Beffi\advancephp\Blog\Exceptions\AppException;
 use Beffi\advancephp\Blog\Exceptions\HttpException;
+use Beffi\advancephp\Blog\Http\Actions\Comments\CreateComment;
+use Beffi\advancephp\Blog\Http\Actions\Posts\CreatePost;
+use Beffi\advancephp\Blog\Http\Actions\Posts\FindByUuid;
 use Beffi\advancephp\Blog\Http\Actions\Users\CreateUser;
 use Beffi\advancephp\Blog\Http\Actions\Users\FindByUsername;
 use Beffi\advancephp\Blog\Http\ErrorResponse;
 use Beffi\advancephp\Blog\Http\Request;
 use Beffi\advancephp\Blog\Http\SuccessfulResponse;
+use Beffi\advancephp\Blog\Repositories\CommentsRepository\SqliteCommentsRepository;
+use Beffi\advancephp\Blog\Repositories\PostsRepository\SqlitePostsRepository;
 use Beffi\advancephp\Blog\Repositories\UsersRepository\SqliteUsersRepository;
 
 
@@ -21,9 +26,9 @@ $routes = [
     new SqliteUsersRepository(
     //new PDO( __DIR__ . '/blog.sqlite'))),
     new PDO('sqlite:' . __DIR__ . '/blog.sqlite'))),
-    // '/posts/show' => new FindByUuid(
-    // new SqlitePostsRepository(
-    // new PDO('sqlite:' . __DIR__ . '/blog.sqlite'))),
+    '/posts/show' => new FindByUuid(
+    new SqlitePostsRepository(
+    new PDO('sqlite:' . __DIR__ . '/blog.sqlite'))),
     ],
 'POST' => [
     '/users/create'=>new CreateUser(
@@ -31,6 +36,28 @@ $routes = [
             new PDO('sqlite:'. __DIR__ . '/blog.sqlite')
         )
     ),
+    '/posts/create' => new CreatePost(
+        new SqlitePostsRepository(
+        new PDO('sqlite:' . __DIR__ . '/blog.sqlite')
+        ),
+        new SqliteUsersRepository(
+        new PDO('sqlite:' . __DIR__ . '/blog.sqlite')
+        )
+        ),
+    '/posts/comment'=> new CreateComment(
+        new SqliteUsersRepository(
+            new PDO('sqlite:' . __DIR__ . '/blog.sqlite')
+            ),
+        new SqlitePostsRepository(
+            new PDO('sqlite:' . __DIR__ . '/blog.sqlite')
+            ),
+            new SqliteCommentsRepository(
+                new PDO('sqlite:' . __DIR__ . '/blog.sqlite')
+                ),
+
+
+    ),
+        
 ],
     ];
 try {
